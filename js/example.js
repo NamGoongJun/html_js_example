@@ -35,15 +35,20 @@ const modalSubmitBtn = document.querySelector('button.modalSubmit');
 modalSubmitBtn.onclick = () => {
   const modalFormElement = document.querySelector('.modalForm');
   const formData = new FormData(modalFormElement);
+  if (modalFormElement.studentNo.value.length != 9) {
+    alert('학번은 9글자로 입력해주세요.');
+  } else if (modalFormElement.email.value.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i) === null) {
+    alert('이메일 양식을 지켜주세요.');
+  } else {
+    for (const [key, value] of formData) {
+      localStorage.setItem(key, value);
+      if (key==='userName') setUserName(value);
+      if (key==='studentNo') setStudentNo(value);
+      if (key==='email') setEmail(value);
+    }
 
-  for (const [key, value] of formData) {
-    localStorage.setItem(key, value);
-    if (key==='userName') setUserName(value);
-    if (key==='studentNo') setStudentNo(value);
-    if (key==='email') setEmail(value);
+    inputModalElement.close();
   }
-
-  inputModalElement.close();
 };
 
 inputModalElement.onclick = (event) => {
